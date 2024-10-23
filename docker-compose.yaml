@@ -1,6 +1,7 @@
 version: '3'
 services:
   salt-master:
+    container_name: salt-master
     build:
       context: https://github.com/Lineyss/Salt-Docker.git
       dockerfile: Dockerfile
@@ -17,6 +18,7 @@ services:
     depends_on:
       - mongo
   mongo:
+    container_name: mongo
     image: mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: salt
@@ -24,6 +26,7 @@ services:
       MONGO_INITDB_DATABASE: salt_db
     volumes:
       - mongodb:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     networks:
       - network
 
