@@ -10,7 +10,8 @@ services:
       - "8080:8080"
     volumes:
       - ./srv:/srv
-      - ./config:/etc/salt/master.d
+      - ./config:/config
+      - salt-key:/etc/salt/pki
     networks:
       - network
     depends_on:
@@ -25,8 +26,10 @@ services:
       - mongodb:/data/db
     networks:
       - network
+
 volumes:
   mongodb:
+  salt-key:
 networks:
   network:
     driver: bridge
