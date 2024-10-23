@@ -20,13 +20,8 @@ RUN apt-get update \
 
 RUN echo "$USER:$USER_PASSWORD" | chpasswd
 
-COPY srv /srv
-COPY scripts /scripts
 COPY configs/salt /etc/salt/master.d
 COPY configs/supervisord /etc/supervisord/conf.d
-
-# RUN chmod +x set_config_setting.sh
-# RUN ./set_config_setting.sh
 
 ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisord/conf.d/supervisord.conf"]
 
