@@ -1,0 +1,32 @@
+version: '3'
+services:
+  salt-master:
+    build:
+      context: https://github.com/Lineyss/Salt-Docker.git
+      dockerfile: Dockerfile
+    ports:
+      - "4505:4505"
+      - "4506:4506"
+      - "8080:8080"
+    volumes:
+      - ./srv:/srv
+      - ./config:/etc/salt/master.d
+    networks:
+      - network
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: salt
+      MONGO_INITDB_ROOT_PASSWORD: 123321
+      MONGO_INITDB_DATABASE: salt_db
+    volumes:
+      - mongodb:/data/db
+    networks:
+      - network
+volumes:
+  mongodb:
+networks:
+  network:
+    driver: bridge
