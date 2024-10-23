@@ -5,6 +5,8 @@ ENV RET_PORT=4506
 ENV USER=salt
 ENV USER_PASSWORD=123321
 
+EXPOSE 4505 4506
+
 RUN apt-get update \
     && apt-get -y install curl \
     && apt-get -y install passwd \
