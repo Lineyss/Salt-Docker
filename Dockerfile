@@ -3,9 +3,6 @@ FROM ubuntu:latest
 ENV PUBLISH_PORT=4505
 ENV RET_PORT=4506
 ENV USER=salt
-ENV USER_PASSWORD=123321
-
-EXPOSE 4505 4506
 
 RUN apt-get update \
     && apt-get -y install curl \
@@ -20,9 +17,11 @@ RUN ./bootstrap-salt.sh -M -N -X
 RUN apt-get update \
   && apt-get -y install salt-api
 
-RUN echo "$USER:$USER_PASSWORD" | chpasswd
+WORKDIR /scripts
+COPY scripts /scripts
+RUN chmod +x /scripts/set_config.sh
+RUN ./set_config.sh
 
-COPY configs/salt /etc/salt/master.d
 COPY configs/supervisord /etc/supervisord/conf.d
 
 ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisord/conf.d/supervisord.conf"]
