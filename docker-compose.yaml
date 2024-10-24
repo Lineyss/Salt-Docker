@@ -1,5 +1,18 @@
 version: '3'
 services:
+  mongo:
+    container_name: 'mongoDb'
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: salt_db
+    volumes:
+      - mongodb:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    networks:
+      - network
+
   salt-master:
     container_name: salt-master
     build:
@@ -17,19 +30,6 @@ services:
       - network
     depends_on:
       - mongo
-  mongo:
-    container_name: mongo
-    image: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: salt
-      MONGO_INITDB_ROOT_PASSWORD: 123321
-      MONGO_INITDB_DATABASE: salt_db
-    volumes:
-      - mongodb:/data/db
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-    networks:
-      - network
-
 volumes:
   mongodb:
   salt-key:

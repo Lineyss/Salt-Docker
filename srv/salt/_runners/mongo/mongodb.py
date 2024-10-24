@@ -11,7 +11,6 @@ class MongoDB:
            db = mongo_settings['db']
            user = mongo_settings['user']
            password = mongo_settings['password']
-           print(f'mongodb://{user}:{password}@{host}:{port}/{db}')
            try:
                client = MongoClient(f'mongodb://{user}:{password}@{host}:{port}/{db}')
                cls.db = client[db]
