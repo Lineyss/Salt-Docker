@@ -26,5 +26,4 @@ COPY configs/supervisord /etc/supervisord/conf.d
 
 ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisord/conf.d/supervisord.conf"]
 
-RUN salt-run saltutil.sync_all
 RUN salt-pip install pymongo
