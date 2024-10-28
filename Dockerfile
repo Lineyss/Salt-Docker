@@ -5,12 +5,11 @@ ENV RET_PORT=4506
 ENV USER=salt
 
 RUN apt-get update \
-    && apt-get -y install curl \
-    && apt-get -y install passwd \
-    && apt-get -y install nano \
-    && apt-get install -y supervisor
+  && apt-get -y install passwd \
+  && apt-get -y install nano \
+  && apt-get -y install supervisor
 
-RUN curl -o bootstrap-salt.sh -L https://bootstrap.saltproject.io
+ADD https://bootstrap.saltproject.io/bootstrap-salt.sh /bootstrap-salt.sh
 RUN chmod +x bootstrap-salt.sh
 RUN ./bootstrap-salt.sh -M -N -X
 
