@@ -21,7 +21,7 @@ external_auth:
     salt:
       - .*
       - '@runner'
-      - '@wheel'а
+      - '@wheel'
 EOF
 
 echo "salt:123321" | chpasswd
