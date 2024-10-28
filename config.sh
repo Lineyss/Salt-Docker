@@ -2,7 +2,11 @@
 
 CONFIG_FILE="/etc/salt/master"
 
+sed -i "s/#state_events:.*/state_events: True/" $CONFIG_FILE
+
 cat <<EOF >> $CONFIG_FILE
+presence_events: True
+
 rest_cherrypy:
   port: 8080
   debug: True
@@ -17,7 +21,7 @@ external_auth:
     salt:
       - .*
       - '@runner'
-      - '@wheel'
+      - '@wheel'а
 EOF
 
-echo "$USER:123321" | chpasswd
+echo "salt:123321" | chpasswd
