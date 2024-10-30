@@ -1,0 +1,38 @@
+version: '3'
+services:
+  mongo:
+    container_name: 'mongoDb'
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: salt_db
+    volumes:
+      - mongodb:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    networks:
+      - network
+
+  salt-master:
+    container_name: salt-master
+    build:
+      context: https://github.com/Lineyss/Salt-Docker.git
+      dockerfile: Dockerfile
+    ports:
+      - "4505:4505"
+      - "4506:4506"
+      - "8080:8080"
+    volumes:
+      # - ./srv:/srv
+      # - ./config:/etc/salt/master.d
+      - salt-key:/etc/salt/pki
+    networks:
+      - network
+    depends_on:
+      - mongo
+volumes:
+  mongodb:
+  salt-key:
+networks:
+  network:
+    driver: bridge

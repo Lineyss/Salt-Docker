@@ -25,3 +25,8 @@ external_auth:
 EOF
 
 echo "salt:123321" | chpasswd
+
+supervisorctl reread
+supervisorctl update
+
+/usr/bin/supervisord -c /etc/supervisord/conf.d/supervisord.conf
