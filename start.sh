@@ -1,10 +1,12 @@
 #!/bin/bash
 
-CONFIG_FILE="/etc/salt/master"
+CONFIG_MASTER="/etc/salt/master"
+CONFIG_SUPERVISORD="/etc/supervisord/conf"
 
-sed -i "s/#state_events:.*/state_events: True/" $CONFIG_FILE
+sed -i "s/#state_events:.*/state_events: True/" $CONFIG_MASTER
+sed -i "s|^user=.*|user=salt|" "${CONFIG_SUPERVISORD}"
 
-cat <<EOF >> $CONFIG_FILE
+cat <<EOF >> $CONFIG_MASTER
 presence_events: True
 
 rest_cherrypy:
@@ -29,4 +31,5 @@ echo "salt:123321" | chpasswd
 supervisorctl reread
 supervisorctl update
 
-/usr/bin/supervisord -c /etc/supervisord/conf.d/supervisord.conf
+supervisorctl start salt-master | salt-api
+# /usr/bin/supervisord -c /etc/supervisord/conf.d/supervisord.conf
