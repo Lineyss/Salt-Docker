@@ -29,5 +29,4 @@ echo "salt:123321" | chpasswd
 supervisorctl reread
 supervisorctl update
 
-supervisorctl start salt-master | salt-api
-# /usr/bin/supervisord -c /etc/supervisord/conf.d/supervisord.conf
+/usr/bin/supervisord -c /etc/supervisord/conf.d/supervisord.conf
