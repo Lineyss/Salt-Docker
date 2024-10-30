@@ -1,10 +1,8 @@
 #!/bin/bash
 
 CONFIG_MASTER="/etc/salt/master"
-CONFIG_SUPERVISORD="/etc/supervisord/conf"
 
 sed -i "s/#state_events:.*/state_events: True/" $CONFIG_MASTER
-sed -i "s|^user=.*|user=salt|" "${CONFIG_SUPERVISORD}"
 
 cat <<EOF >> $CONFIG_MASTER
 presence_events: True

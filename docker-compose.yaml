@@ -26,6 +26,8 @@ services:
       # - ./srv:/srv
       # - ./config:/etc/salt/master.d
       - salt-key:/etc/salt/pki
+      - salt-cache:/var/cache/salt/master
+      - salt-pid:/var/run/salt-master.pid
     networks:
       - network
     depends_on:
@@ -33,6 +35,8 @@ services:
 volumes:
   mongodb:
   salt-key:
+  salt-pid:
+  salt-cache:
 networks:
   network:
     driver: bridge
