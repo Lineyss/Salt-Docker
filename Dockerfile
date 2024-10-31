@@ -11,8 +11,8 @@ RUN apt-get update \
   && apt-get -y install salt-api \
   && salt-pip install pymongo
 
-COPY setting.sh ..
-RUN chmod +x /setting.sh
+COPY setting.sh ./srv/setting.sh
+RUN chmod +x ./srv/setting.sh
 RUN ./srv/setting.sh
 
 COPY configs/supervisord /etc/supervisord/conf.d
