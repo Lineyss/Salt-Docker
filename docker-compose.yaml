@@ -23,8 +23,7 @@ services:
       - "4506:4506"
       - "8080:8080"
     volumes:
-      # - ./srv:/srv
-      # - ./config:/etc/salt/master.d
+      - ./srv:/srv
       - salt-key:/etc/salt/pki
       - salt-cache:/var/cache/salt/master
       - salt-pid:/var/run/salt-master.pid

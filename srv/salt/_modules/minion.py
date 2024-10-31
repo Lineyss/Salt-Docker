@@ -1,3 +1,5 @@
+import os
+
 delete_keys = ['ipv6', 'ipv4', 'fqdn_ip4', 'fqdn_ip6']
 merge_keys = ['ip4_interfaces', 'ip_interfaces', 'ip6_interfaces']
 
@@ -26,7 +28,8 @@ def all_info():
     info['ip_interfaces'] = merge_interfaces
 
     result = software | info
-
-    minion_id = __opts__["id"]
+    
+    if os.name == 'nt':
+        return result | __salt__['win_upd.get']()
 
     return result

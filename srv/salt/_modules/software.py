@@ -107,3 +107,10 @@ def info():
        return {'softwares': _rsf()}
     else:
        return __salt__['pkg.list_pkgs']()
+import os
+
+def valid(dict, name):
+    result = {}
+    for key, value in dict.items():
+        result[key] = {name: value}
+    return result
