@@ -94,7 +94,7 @@ def _rsf():
     Ищет установленные ПО в реестре window
     :return: массив класса Programs в виде json
     """
-    if os.name == 'nt':
+    if __grains__['os'] is 'Windows':
         registrySoftwareFinder = RegistrySoftwareFinder()
         softwares = registrySoftwareFinder.find()
         a = [software.to_dict() for software in softwares]
@@ -103,11 +103,10 @@ def _rsf():
     return ''
 
 def info():
-    if os.name == 'nt':
+    if __grains__['os'] is 'Windows':
        return {'softwares': _rsf()}
     else:
        return __salt__['pkg.list_pkgs']()
-import os
 
 def valid(dict, name):
     result = {}

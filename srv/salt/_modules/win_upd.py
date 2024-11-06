@@ -1,4 +1,7 @@
-import os
+def __virtual__():
+    if __grains__['os'] is not 'Windows':
+        return False, 'Unsupported os'
+    return True
 
 def valid(dict, name):
     result = {}
@@ -9,9 +12,6 @@ def valid(dict, name):
     return result
 
 def get():
-    if os.name != 'nt':
-        return 'Method for windows'
-    
     need_install = __salt__['win_wua.list']()
     installed = __salt__['win_wua.installed']()
 
@@ -19,3 +19,11 @@ def get():
     installed = valid(installed, 'installed update')
     
     return installed | need_install
+
+def install(update):
+    result = __salt__['win_wua.download'](names=[update])
+
+    if result['Success']:
+        result = __salt__['win_wua.install'](names=[update])
+    
+    return result

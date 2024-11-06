@@ -1,5 +1,3 @@
-import os
-
 delete_keys = ['ipv6', 'ipv4', 'fqdn_ip4', 'fqdn_ip6']
 merge_keys = ['ip4_interfaces', 'ip_interfaces', 'ip6_interfaces']
 
@@ -29,7 +27,7 @@ def all_info():
 
     result = software | info
     
-    if os.name == 'nt':
+    if __grains__['os'] is 'Windows':
         return result | __salt__['win_upd.get']()
 
     return result

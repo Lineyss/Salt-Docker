@@ -12,11 +12,11 @@ services:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     networks:
       - network
-
   salt-master:
     container_name: salt-master
+    privileged: true
     build:
-      context: https://github.com/Lineyss/Salt-Docker.git
+      context: .
       dockerfile: Dockerfile
     ports:
       - "4505:4505"
@@ -24,6 +24,7 @@ services:
       - "8080:8080"
     volumes:
       - ./srv:/srv
+      - logs:/var/log/salt
       - salt-key:/etc/salt/pki
       - salt-cache:/var/cache/salt/master
       - salt-pid:/var/run/salt-master.pid
@@ -31,11 +32,13 @@ services:
       - network
     depends_on:
       - mongo
+
 volumes:
   mongodb:
   salt-key:
   salt-pid:
   salt-cache:
+  logs:
 networks:
   network:
     driver: bridge

@@ -3,6 +3,7 @@ from pymongo import MongoClient
 class MongoDB:
     _instance = None
     db = None
+    
     def __new__(cls, salt):
         if cls._instance is None:
            mongo_settings = salt['config.get']('mongo')
