@@ -7,11 +7,14 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
       MONGO_INITDB_DATABASE: salt_db
+    ports:
+      - "27017:27017"
     volumes:
       - mongodb:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     networks:
       - network
+
   salt-master:
     container_name: salt-master
     privileged: true

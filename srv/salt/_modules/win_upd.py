@@ -1,5 +1,7 @@
+import salt.modules.cmdmod as cmdmod
+
 def __virtual__():
-    if __grains__['os'] is not 'Windows':
+    if __grains__['os'] not in ['Windows']:
         return False, 'Unsupported os'
     return True
 
@@ -12,7 +14,7 @@ def valid(dict, name):
     return result
 
 def get():
-    need_install = __salt__['win_wua.list']()
+    need_install = __salt__['win_wua.available']()
     installed = __salt__['win_wua.installed']()
 
     need_install = valid(need_install, 'available updates')
@@ -20,10 +22,6 @@ def get():
     
     return installed | need_install
 
-def install(update):
-    result = __salt__['win_wua.download'](names=[update])
-
-    if result['Success']:
-        result = __salt__['win_wua.install'](names=[update])
-    
+def uninstall(KB):
+    result = cmdmod.run(f'wusa /uninstall /kb:{KB}')
     return result
