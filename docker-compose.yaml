@@ -1,4 +1,5 @@
-version: '3'
+version: '3.8'
+
 services:
   mongo:
     container_name: 'mongoDb'
@@ -10,8 +11,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongodb:/data/db
-      # - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - ./volumes/mongo:/data/db
     networks:
       - network
 
@@ -28,21 +28,15 @@ services:
     volumes:
       - ./srv:/srv
       - ./master:/etc/salt/master.d
-      - logs:/var/log/salt
-      - salt-key:/etc/salt/pki
-      - salt-cache:/var/cache/salt/master
-      - salt-pid:/var/run/salt-master.pid
+      - ./volumes/salt/log:/var/log/salt
+      - ./volumes/salt/pki:/etc/salt/pki
+      - ./volumes/salt/cache:/var/cache/salt/master
+      - ./volumes/salt/pid:/var/run/salt-master.pid
     networks:
       - network
     depends_on:
       - mongo
 
-volumes:
-  mongodb:
-  salt-key:
-  salt-pid:
-  salt-cache:
-  logs:
 networks:
   network:
     driver: bridge

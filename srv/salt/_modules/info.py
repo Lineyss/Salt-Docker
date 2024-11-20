@@ -1,3 +1,5 @@
+import salt.utils.platform as os
+
 delete_keys = ['ipv6', 'ipv4', 'fqdn_ip4', 'fqdn_ip6']
 merge_keys = ['ip4_interfaces', 'ip_interfaces', 'ip6_interfaces']
 
@@ -14,8 +16,8 @@ def _merge_key(dict):
         _delete_key(key, dict)
     return merge_interfaces
 
-def all_info():
-    software = __salt__['software.info']()
+def get():
+    software = __salt__['software.get']()
     info = __salt__['grains.items']()
 
     for key in delete_keys:
@@ -25,9 +27,9 @@ def all_info():
     merge_interfaces = _merge_key(info)
     info['ip_interfaces'] = merge_interfaces
 
-    result = software | info
-    
-    if __grains__['os'] is 'Windows':
+    result = info | software
+
+    if os.is_windows():
         return result | __salt__['win_upd.get']()
 
     return result

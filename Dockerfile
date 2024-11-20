@@ -8,7 +8,6 @@ RUN apt-get update \
 && apt-get install -y git \
 && apt-get install -y sudo \
 && apt-get install -y inotify-tools \
-&& apt-get install -y cron \
 && apt-get clean all \
 && rm -rf /var/lib/apt/lists/*
 
@@ -28,8 +27,11 @@ RUN apt-get update \
 COPY master /etc/salt/master.d
 COPY srv /srv
 
-COPY setting.sh ..
-RUN chmod +x ./setting.sh
+RUN echo "salt:123321" | chpasswd
+
+RUN salt-pip install pip==22.3.1
+RUN salt-pip install pygit2==1.14.1
+RUN salt-pip install python-ldap
 
 ENTRYPOINT ["systemd"]
 CMD ["./setting.sh"]
